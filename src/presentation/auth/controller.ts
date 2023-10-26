@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { AuthRepository, CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } from "../../domain";
+import { CustomError, LoginUser, LoginUserDto, RegisterUser, RegisterUserDto } from "../../domain";
+import { AuthService } from "../Services";
 
 
 
@@ -8,7 +9,7 @@ export class AuthContoller {
     
 
     constructor(
-        private readonly authRepository: AuthRepository
+        private readonly authService: AuthService
     ){}
 
 
@@ -24,7 +25,7 @@ export class AuthContoller {
         const [error, registerUserDto] = RegisterUserDto.create(req.body);
         if(error) return res.status(400).json({error: error});
 
-        new RegisterUser(this.authRepository)
+        new RegisterUser(this.authService)
           .execute(registerUserDto!)
           .then(data => res.json(data))
           .catch(error => this.handleError(error, res));
@@ -35,7 +36,7 @@ export class AuthContoller {
         const [error, loginUserDto] = LoginUserDto.create(req.body);
         if(error) return res.status(400).json({error: error});
 
-        new LoginUser(this.authRepository)
+        new LoginUser(this.authService)
           .execute(loginUserDto!)
           .then(data => res.json(data))
           .catch(error => this.handleError(error, res));

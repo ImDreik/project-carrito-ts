@@ -1,14 +1,14 @@
 import { UserModel } from "../../data";
 import { JwtAdapter, envs } from "../../config";
 import { EmailService } from "../../presentation/Services";
-import { AuthDatasource, CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain";
+import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain";
 
 
 type HashFunction = (password: string) => string;
 type ComprareFunction = (password: string, hashedPassword: string) => boolean;
 
 
-export class AuthDatasourceImpl implements AuthDatasource{
+export class AuthService {
 
     constructor(
         // Cualquier hash de password

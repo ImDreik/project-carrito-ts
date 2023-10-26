@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { EmailService } from "../Services";
+import { AuthService, EmailService } from "../Services";
 import { AuthContoller } from "./controller";
 import { HashingAdapter, JwtAdapter, envs } from "../../config";
-import { AuthDatasourceImpl, AuthRepositoryImpl } from "../../infrastructure";
 
 
 export class AuthRouter{
@@ -18,13 +17,13 @@ export class AuthRouter{
             envs.MAILER_SECRET_KEY,
             envs.SEND_EMAIL
         );
-        const datasource = new AuthDatasourceImpl(
+        const authService = new AuthService(
             HashingAdapter.hash,
             HashingAdapter.compare,
             emailService
         );
-        const authRepository = new AuthRepositoryImpl(datasource);
-        const authController = new AuthContoller(authRepository);
+        
+        const authController = new AuthContoller(authService);
 
         router.post('/register', authController.register);
         router.post('/login', authController.login);

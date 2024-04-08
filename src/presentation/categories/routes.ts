@@ -1,7 +1,7 @@
 import { Router } from "express";
+import { CategoryService } from "../Services";
 import { CategoryContoller } from "./controller";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
-import { CategoryDatasourceImpl, CategoryRepositoryImpl } from "../../infrastructure";
 
 
 
@@ -13,11 +13,8 @@ export class CategoryRoutes {
 
         const router = Router();
 
-        const categoryDatasoruce = new CategoryDatasourceImpl(
-            // Posible inyeccion de dependencias
-        )
-        const categoryRepository = new CategoryRepositoryImpl(categoryDatasoruce);
-        const categoryController = new CategoryContoller(categoryRepository);
+        const categoryService = new CategoryService();
+        const categoryController = new CategoryContoller(categoryService);
 
         // Definicion de rutas
         router.get('/', categoryController.getAll);

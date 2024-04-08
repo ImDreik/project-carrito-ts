@@ -1,10 +1,10 @@
 import { CategoryModel } from "../../data";
-import { CategoryDatasource, CategoryEntity, CreateCategoryDto, CustomError, UserEntity } from "../../domain";
+import { CategoryEntity, CreateCategoryDto, CustomError, UserEntity } from "../../domain";
 
 
 
 
-export class CategoryDatasourceImpl implements CategoryDatasource {
+export class CategoryService {
 
     constructor(
         // DI

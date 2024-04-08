@@ -1,5 +1,6 @@
 import { JwtAdapter } from "../../../config";
-import { AuthRepository, CustomError, RegisterUserDto } from "../..";
+import { CustomError, RegisterUserDto } from "../..";
+import { AuthService } from "../../../presentation/Services";
 
 
 
@@ -24,13 +25,13 @@ type SingToken = (payload: Object, duration?: string) => Promise<string | null>
 export class RegisterUser implements RegisterUserUseCase{
 
     constructor(
-        private readonly authRepository: AuthRepository,
+        private readonly authService: AuthService,
         private readonly singToken: SingToken = JwtAdapter.generateToken
     ){}
 
     async execute(registerUserDto: RegisterUserDto): Promise<NewUser> {
         
-        const user = await this.authRepository.register(registerUserDto);
+        const user = await this.authService.register(registerUserDto);
         const token = await this.singToken({id: user.id}, '2h');
         if(!token) throw CustomError.internalServer('Error while creating JWT');
 
